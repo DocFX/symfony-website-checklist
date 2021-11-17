@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="{{- app.request.locale|replace({'_': '-'}) -}}" class="{%- block bodyclass %}front{% endblock -%}">
+    <head>
+        <meta charset="UTF-8">
+        <title>{%- block website_title %}{{ website_title|default('Welcome') }}{% endblock %}{% block title_suffix %}{{ globals_website_title_suffix }}{% endblock -%}</title>
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+        {% block custom_stylesheets %}{% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+        <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+        {# Metadata below #}
+        <link rel="manifest" href="{{ asset('site.webmanifest') }}">
+        <meta name="description" content="{% block meta_description %}{% autoescape %}{{ globals_website_description }}{% endautoescape %}{% endblock %}">
+        <meta name="msapplication-config" content="/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="{{ asset('build/favicon/mstile-150x150.png') }}">
+        <link rel="canonical" href="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+
+        {% block og_meta -%}
+            <meta property="og:url" content="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+            <meta property="og:site_name" content="{{ globals_website_name|escape }}">
+            <meta property="og:type" content="website">
+            <meta property="og:title" content="{{ globals_website_name|escape }}">
+            <meta property="og:description" content="{{ block('meta_description') }}">
+            <meta property="og:image" content="{{ absolute_url(asset('build/images/ogimage.jpg')) }}">
+            <meta property="og:image:width" content="888">
+            <meta property="og:image:height" content="672">
+            <meta property="og:image:type" content="image/jpeg">
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:creator" content="@yourtwittername">
+            <meta name="twitter:title" content="{{ globals_website_name|escape }}">
+            <meta property="twitter:description" content="{{ block('meta_description') }}">
+            <meta property="twitter:image" content="{{ absolute_url(asset('build/images/ogimage.jpg')) }}">
+        {%- endblock %}
+
+        {% block schema_org -%}
+            <script type="application/ld+json">
+                {
+                    "@context": "https://www.schema.org",
+                    "@type": "Service",
+                    "name": "{{ block ('website_title') }}",
+                    "description": "{{ globals_website_subtitle }}",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressCountry": "Your country"
+                    }
+                }
+            </script>
+        {%- endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

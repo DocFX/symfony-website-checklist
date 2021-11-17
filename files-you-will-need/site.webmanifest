@@ -1,0 +1,15 @@
+{
+ "name": "",
+ "short_name":"",
+ "theme_color":"#efefef",
+ "background_color":"#ffffff",
+ "display":"standalone",
+ "icons": [
+  {
+   "src": "/build/favicon/favicon-16x16.png",
+   "sizes": "16x16",
+   "type": "image/png",
+   "density": "0.75"
+  }
+ ]
+}

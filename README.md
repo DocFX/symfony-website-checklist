@@ -1,4 +1,4 @@
-[![](readme-sources/symfony-website-checklist.jpg)]()
+![](readme-sources/symfony-website-checklist.jpg)
 
 # Symfony Website Checklist 📑
 
@@ -17,6 +17,8 @@
 - [9. Pre-flight checks](#9-pre-flight-checks)
 - [10. Dockerize your project](#10-dockerize-your-project)
 
+***
+
 ### Elevator pitch
 
 > __This project lists all the mandatory steps I recommend to build a website using:__
@@ -33,6 +35,8 @@ This project assumes you start **from zero**.
 This project README will remain in *one* file to ease searching from a browser.
 
 All the files referenced in this document can be found in the `/files-you-will-need` directory of this repository.
+
+***
 
 ### Philosophy
 
@@ -60,6 +64,7 @@ All the files referenced in this document can be found in the `/files-you-will-n
 
 All contributions and suggestions are welcome. 😇
 
+***
 
 ***
 
@@ -150,10 +155,50 @@ parameters:
 
 ## 3. Set up your Twig templates
 
-1. Install Twig and the extensions you're going to use.
+1. Identify your application domains. If you have no idea what this means, or which to use, simply go with `Admin`
+   and `Front`, plus one for each of your application "modules".
+2. Install Twig and the extensions you're going to use.
     - `composer require twig`
     - `composer require twig/extra-bundle`
-2.
+3. Create global variables for Twig that you're going to need, simply edit `config/packages/twig.yaml` as follows:
+
+```yaml
+twig:
+    # ...
+    globals:
+        # Used for the tab title 
+        globals_website_title_suffix: ' | Your website suffix'
+        # Used for OpenGraph
+        globals_website_url: 'https://your.super.url'
+        # Used at many places
+        globals_website_name: 'Your website name'
+        # Used for schema.org data
+        globals_website_subtitle: 'Something like your slogan'
+        # Used for OpenGraph data
+        globals_website_description: 'The long description, mostly for <meta> tags and OpenGraph description.'
+        # You'll need to change this if you want to enable Facebook Sharer
+        globals_facebook_app_id: '1111111111111111'
+    # ...
+```
+
+4. For the following steps, if you want to be lazy, just copy the templates from this repository for a start:
+    - `admin_layout.html.twig` goes to `templates/admin`
+    - `front_layout.html.twig` goes to `templates/front`
+    - `base.html.twig` goes to `templates`
+5. If you didn't copy the files from the previous step, then do as follows:
+    - Create a layout file inside each domain subdirectory, name it as follows: `[domain]_layout.html.twig`.
+    - Add a base class block to your `<html>` tag in `base.html.twig` template and override it in each `[domain]_layout.html.twig` templates.
+    - Define your metadata in your `base.html.twig`, at least:
+        - The viewport strategy for CSS processing.
+        - OpenGraph metadata.
+        - HTML metadata.
+        - Schema.org metadata.
+        - Twitter / Facebook metadata.
+        - Webpack Encore styles and scripts tags.
+        - Dynamic <title> markup.
+        - UTF-8 charset.
+        - A canonical markup for SEO (`<link rel="canonical" href="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">`).
+        - Overridable blocks for all of these.
 
 ## 4. Produce your models
 
@@ -199,16 +244,14 @@ parameters:
 
 ## 6. Set up your basic application logic
 
-1. Identify your application domains. If you have no idea what this means, or which to use, simply go with `Admin`
-   and `Front`, plus one for each of your application "modules".
-2. Create a subdirectory for each of these domains, at least for `Admin` and `Front` (that's already enough):
+1. Create a subdirectory for each of your domains, at least for `Admin` and `Front` (that's already enough):
     - In `src/Controller`.
     - In `src/Form`.
     - In `src/Model`.
-3. Do the same in the Twig `/templates` directory: create `/admin` and `/front` subdirectories in it.
-4. Move your CRUDL controllers to `src/Controller/Admin`, and their templates to `templates/admin`.
-5. Update the namespaces, templates name references in the controllers and templates according to last point.
-6. Inside each `messages.[language].yaml` translations file, start root keys with your domains, all snake case. At least they should look like this:
+2. Do the same in the Twig `/templates` directory: create `/admin` and `/front` subdirectories in it.
+3. Move your CRUDL controllers to `src/Controller/Admin`, and their templates to `templates/admin`.
+4. Update the namespaces, templates name references in the controllers and templates according to last point.
+5. Inside each `messages.[language].yaml` translations file, start root keys with your domains, all snake case. At least they should look like this:
 
 ```yaml
 front:
@@ -332,6 +375,9 @@ parameters:
 5. Validate your project with Psalm (using the shell scripts created in #1.).
 6. Validate your project with PHP-CS-Fixer (using the shell scripts created in #1.).
 7. If needed, configure your CI. There's an included sample file for GitLab CI inside this project, see `.gitlab-ci.yml` (checks that you didn't forget PHP-CS-Fixer).
+8. Add a `robots.txt` file inside the `public` directory. Use the one provided in this repository for a start.
+9. Add a `site.webmanifest` file inside the `public` directory. Use the one provided in this repository for a start.
+10. Enable it by adding this to your `base.html.twig` file: `<link rel="manifest" href="{{ asset('site.webmanifest') }}">`.
 
 ## 10. Dockerize your project
 
@@ -339,6 +385,7 @@ parameters:
 2. Create a `docker-sources/containers-config` directory inside. You'll put your Dockerfiles inside, named according to the container name.
 3. Create a `environment-files` directory inside the project root directory, and move all your DotEnv files inside.
 4. Make Symfony aware that they moved, modify your `composer.json` file as follows:
+
 ```json
 {
     "...": "...",
@@ -350,13 +397,14 @@ parameters:
     }
 }
 ```
+
 5. Create at least a `global-docker-compose.yml` inside `docker-sources`.
 6. Create at least a `[environment-name]-docker-compose.yml` inside `docker-sources` (like `dev-docker-compose.yml`).
 7. Notify your Docker Compose files that the environment files they should use are inside this directory.
-8. Add a shell script inside the project root to start the project Docker containers fast 
+8. Add a shell script inside the project root to start the project Docker containers fast
    (a sample one is included in this repository: `build-and-run-dev-docker-containers.bat`).
 
-The rest will be part of your project choices.
+The rest will be part of your project choices. ;)
 
 ***
 

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /build/ckeditor
+Disallow: /build/fonts
+Disallow: /bundles/*
+Crawl-delay: 5

@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{%- block bodyclass %}front{% endblock -%}
+
+{% block body %}
+    <section class="main-container">
+        <header>
+            {% block header %}
+                <nav>
+                    {{ display_front_main_menu() }}
+                </nav>
+            {% endblock %}
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            {% block footer %}
+                <nav>
+                    {{ display_front_second_menu() }}
+                </nav>
+            {% endblock %}
+        </footer>
+    </section>
+{% endblock %}
