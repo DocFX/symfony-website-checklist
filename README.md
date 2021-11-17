@@ -2,12 +2,16 @@
 
 # Symfony Website Checklist 📑
 
+## Summary
+- [Elevator pitch](#elevator-pitch) 
+
+
 ### Elevator pitch
 
 >__This project lists all the mandatory steps I recommend to build a website using:__
 >
 >- __HTTPS + HTML output,__
->- __A local, PHP-integrated server first, Docker as a "maybe" later on.__
+>- __A local, PHP-integrated server first, Docker as a "maybe" later on,__
 >- __Symfony,__
 >- __Twig,__
 >- __Doctrine.__
@@ -47,7 +51,7 @@ All contributions and suggestions are welcome. 😇
 
 ***
 
-## Set up your environment
+## 1. Set up your environment
 
 1. Set up PHP/latest.  
    On Linux, use your package manager (like Aptitude or Yum). `sudo su && apt-get update && apt-get install php8` at
@@ -83,7 +87,7 @@ All contributions and suggestions are welcome. 😇
    - Architectures / coding / technology **choices**.
 8. Add a `readme-sources` directory at the root of your project. Anything that is included in MarkDown documentation goes there.
 
-## Set up a new Symfony project
+## 2. Set up a new Symfony project
 
 1. Install PHP-Stan as a dev dependency (`composer require --dev phpstan/phpstan`).
     - You can do this in a separate directory outside your project as a better practice.
@@ -130,14 +134,14 @@ parameters:
     - At least set it up so you use UTF-8, `LF` characters for newlines and 4 spaces as tabulations.
     - If you don't, just use the one in this repository (`.editorconfig`).
 
-## Set up your Twig templates
+## 3. Set up your Twig templates
 
 1. Install Twig and the extensions you're going to use.
     - `composer require twig`
     - `composer require twig/extra-bundle`
 2. 
 
-## Produce your models
+## 4. Produce your models
 
 1. List all your entities, think about them until you can't find new fields/properties to add.
 2. Add Doctrine DBAL + ORM (`composer require orm`).
@@ -149,7 +153,7 @@ parameters:
 5. Use the MakerBundle to generate their CRUDL. For each entity, run `php bin/console make:crud`.
 6. Create a `Model` directory under `/src` to store all models that are not entities.
 
-## Set up translations (even if you only use one language)
+## 5. Set up translations (even if you only use one language)
 
 1. Install the Translation component: `composer require symfony/translation`.
 2. Set up your default language in `config/packages/translation.yaml`. Mine looks like this (for non-geographic English
@@ -181,7 +185,7 @@ parameters:
 5. Create a `validators.[yourdefaultlanguage].yaml` in the `translations` folder. Don't use ICU unless you know why.
 6. Repeat last two steps for each additional language you'll need.
 
-## Set up your basic application logic
+## 6. Set up your basic application logic
 
 1. Identify your application domains. If you have no idea what this means, or which to use, simply go with `Admin`
    and `Front`, plus one for each of your application "modules".
@@ -213,12 +217,12 @@ admin:
    - Add `use HistoryTrackableEntity;` after each Entity class opening bracket (first line, before constants and properties).
    - Update the database (`php bin/console doctrine:schema:update` or use migrations if you chose to use them).
 
-## Secure your app
+## 7. Secure your app
 
 1. Define your roles in
 
 
-## Use TailwindCSS for styles and RWI
+## 8. Use TailwindCSS for styles and RWI
 
 1. Update `config/twig.yaml` and set this:
 ```yaml
@@ -237,7 +241,7 @@ twig:
    - Setup Webpack, PostCSS and Tailwind.
      - If you don't know what this means, simpy copy the following files from this directory to 
 
-## Pre-flight checks
+## 9. Pre-flight checks
 
 1. Run `symfony check:security` to validate that your project has no known vulnerabilities from its dependencies.
 2. Create a deployment script for your non-dev environments.
@@ -260,7 +264,7 @@ parameters:
     # ...
 ```
 
-## Dockerize your project
+## 10. Dockerize your project
 
 -
 
