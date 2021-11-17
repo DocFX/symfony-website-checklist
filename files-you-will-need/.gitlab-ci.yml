@@ -1,0 +1,16 @@
+image: php:8.0
+
+cache:
+  paths:
+    - 'vendor/'
+
+before_script:
+  - apt-get update -yqq
+  - apt-get install -yqq git libzip-dev libmcrypt-dev libpq-dev libcurl4-gnutls-dev libicu-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev
+  - docker-php-ext-install intl gd zip bz2
+  - curl -sS https://getcomposer.org/installer | php
+  - php composer.phar install --no-scripts
+
+PHP-CS-Fixer-checks:
+    script:
+        - php vendor/bin/php-cs-fixer fix -v -vvv --dry-run --stop-on-violation --using-cache=no

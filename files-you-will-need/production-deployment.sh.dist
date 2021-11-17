@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# #############################################################################################
+# # This Shell script (bash) is written to deploy CityConfinement project on [PRODUCTION]     #
+# # It does the following, in that order:                                                     #
+# # - git fetch --all                                                                         #
+# # - git rev-parse refs/remotes/origin/master^(commit)                                       #
+# # - git checkout -f master                                                                  #
+# # - php bin/console doctrine:schema:update --force                                          #
+# #############################################################################################
+
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[32m##################### Deployment Step 1: Git repository refresh #####################"
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[0m"
+
+git fetch --all
+git rev-parse refs/remotes/origin/master
+git checkout -f master
+
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[32m################ Deployment Step 2: Composer dependencies and setup #################"
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[0m"
+
+cd frontend || exit
+wget -O composer.phar https://getcomposer.org/composer-stable.phar
+
+/usr/local/php8.0/bin/php composer.phar update --no-scripts
+
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[32m####################### Deployment Step 3: Clearing the cache #######################"
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[0m"
+
+/usr/local/php8.0/bin/php bin/console cache:clear --no-warmup --env=prod
+
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[32m####################### Deployment Step 4: Doctrine ORM Sync ########################"
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[0m"
+
+/usr/local/php8.0/bin/php bin/console doctrine:schema:update --force --env=prod
+
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[32m################################ Deployment complete ################################"
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[0m"

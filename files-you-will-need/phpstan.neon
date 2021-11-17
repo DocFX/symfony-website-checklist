@@ -1,0 +1,9 @@
+parameters:
+    level: 9
+    paths:
+        - config
+        - src
+        - tests
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '#Property .* is never written, only read\.#'
