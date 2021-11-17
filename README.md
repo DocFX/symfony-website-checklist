@@ -239,7 +239,9 @@ twig:
    - Run `composer require encore` and `npm install`.
    - Run `npm install -D tailwindcss postcss-loader purgecss-webpack-plugin glob-all path autoprefixer`.
    - Setup Webpack, PostCSS and Tailwind.
-     - If you don't know what this means, simpy copy the following files from this directory to 
+     - If you don't know what this means, simply copy the following files from this repository to your project root directory:
+       - ``
+   - Run `npm run build`.
 
 ## 9. Pre-flight checks
 
