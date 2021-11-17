@@ -3,18 +3,30 @@
 # Symfony Website Checklist 📑
 
 ## Summary
-- [Elevator pitch](#elevator-pitch) 
 
+- [Elevator pitch](#elevator-pitch)
+- [Philosophy](#philosophy)
+- [1. Set up your environment](#1-set-up-your-environment)
+- [2. Set up a new Symfony project](#2-set-up-a-new-symfony-project)
+- [3. Set up your Twig templates](#3-set-up-your-twig-templates)
+- [4. Produce your models](#4-produce-your-models)
+- [5. Set up translations (even if you only use one language)](#5-set-up-translations-even-if-you-only-use-one-language)
+- [6. Set up your basic application logic](#6-set-up-your-basic-application-logic)
+- [7. Secure your app](#7-secure-your-app)
+- [8. Use TailwindCSS for styles and RWI](#8-use-tailwindcss-for-styles-and-rwi)
+- [9. Pre-flight checks](#9-pre-flight-checks)
+- [10. Dockerize your project](#10-dockerize-your-project)
 
 ### Elevator pitch
 
->__This project lists all the mandatory steps I recommend to build a website using:__
+> __This project lists all the mandatory steps I recommend to build a website using:__
 >
->- __HTTPS + HTML output,__
->- __A local, PHP-integrated server first, Docker as a "maybe" later on,__
->- __Symfony,__
->- __Twig,__
->- __Doctrine.__
+> - __HTTPS + HTML output,__
+> - __A local, PHP-integrated server first, Docker as a "maybe" later on,__
+> - __Symfony,__
+> - __Twig,__
+> - __Doctrine ORM,__
+> - __Any RDBMS.__
 
 This project assumes you start **from zero**.
 
@@ -54,12 +66,10 @@ All contributions and suggestions are welcome. 😇
 ## 1. Set up your environment
 
 1. Set up PHP/latest.  
-   On Linux, use your package manager (like Aptitude or Yum). `sudo su && apt-get update && apt-get install php8` at
-   least.  
+   On Linux, use your package manager (like Aptitude or Yum). `sudo su && apt-get update && apt-get install php8` at least.  
    On MacOS, use [Brew](https://brew.sh/) through `brew install php`.  
    On Windows:
-    - Download it from [windows.php.net](https://windows.php.net/download/) (take the **latest version, VS16 x64 Thread
-      Safe, with OpenSSL**)
+    - Download it from [windows.php.net](https://windows.php.net/download/) (take the **latest version, VS16 x64 Thread Safe, with OpenSSL**)
     - Unzip it to `C:\php[VERSION DIGITS]`.
     - Then change your `PATH` system variable (`Windows + R`, type `PATH`, hit `Enter`, click on `Environment Variables`
       , then your user variables, edit the `PATH` entry and append the previously unzipped directory path to it).
@@ -75,24 +85,30 @@ All contributions and suggestions are welcome. 😇
         - The complete list is [here](https://www.php.net/manual/en/timezones.php).
 4. On Windows, download and install [Composer Setup](https://getcomposer.org/Composer-Setup.exe)
    and [Symfony Setup](https://get.symfony.com/cli/setup.exe).
-5. Check that you got everything OK using `symfony check:requirements` in any directory. Ignore the *"Enable or install
-   a PHP accelerator"* advice.
+5. Check that you got everything OK using `symfony check:requirements` in any directory. Ignore the *"Enable or install a PHP accelerator"* advice.
 6. Start from an empty directory, use `symfony new [your_project_directory_name]`.
 7. Create a `README.md` file inside the root directory and put everything you can document inside, at least those sections:
-   - The **title** of the project.
-   - The **purpose** of the project.
-   - How to **set it up**.
-   - How to **run** basic commands it requires to work (including Docker).
-   - **Contribution** / modification instructions.
-   - Architectures / coding / technology **choices**.
+    - The **title** of the project.
+    - The **purpose** of the project.
+    - How to **set it up**.
+    - How to **run** basic commands it requires to work (including Docker).
+    - **Contribution** / modification instructions.
+    - Architectures / coding / technology **choices**.
 8. Add a `readme-sources` directory at the root of your project. Anything that is included in MarkDown documentation goes there.
+9. Install a RDMBS (let's start with that, right?), like MySQL, MariaDB, or PostGreSQL. Same again:
+    - On Windows, just download the installers and set them up as services, don't use standalone Zip files.
+    - On MacOSX, use [Brew](https://brew.sh/) through `brew install mysql` then `brew services start mysql`.
+10. Set up your DotEnv files:
+    - Create a `.env.local` file by copying the `.env` one.
+    - Change the `APP_SECRET` value to anything.
+    - Change the `DATABASE_URL` to the appropriate values to connect to your RDBMS.
+11. If you use PHPStorm, use *`File > Manage IDE settings > Import settings`* and pick up the `phpstorm-settings.zip` included in this repository.
 
 ## 2. Set up a new Symfony project
 
 1. Install PHP-Stan as a dev dependency (`composer require --dev phpstan/phpstan`).
     - You can do this in a separate directory outside your project as a better practice.
-    - Create your configuration file for PHP-Stan if you know what you're doing. If you don't, just use the one in this
-      repository (`phpstan.neon`).
+    - Create your configuration file for PHP-Stan if you know what you're doing. If you don't, just use the one in this repository (`phpstan.neon`).
     - Let it at the root of your project for now.
     - Also install additional Symfony and Doctrine plugins:
         - `composer require --dev phpstan/extension-installer`,
@@ -116,13 +132,11 @@ parameters:
 
 2. Install PHP-CS-Fixer as a dev dependency (`composer require --dev friendsofphp/php-cs-fixer`).
     - You can do this in a separate directory outside your project as a better practice.
-    - Create your configuration file for PHP-CS-Fixer if you know what you're doing. If you don't, just use the one in
-      this repository (`.php-cs-fixer.dist.php`).
+    - Create your configuration file for PHP-CS-Fixer if you know what you're doing. If you don't, just use the one in this repository (`.php-cs-fixer.dist.php`).
     - Let it at the root of your project for now.
 3. Install Psalm as a dev dependency (`composer require --dev vimeo/psalm`).
     - You can do this in a separate directory outside your project as a better practice.
-    - Create your configuration file for Psalm if you know what you're doing (`php vendor/bin/psalm --init`). If you
-      don't, just use the one in this repository (`psalm.xml`).
+    - Create your configuration file for Psalm if you know what you're doing (`php vendor/bin/psalm --init`). If you don't, just use the one in this repository (`psalm.xml`).
     - Let it at the root of your project for now.
     - Also install additional Symfony and Doctrine plugins: `composer require --dev psalm/plugin-symfony`
       and `composer require --dev weirdan/doctrine-psalm-plugin`.
@@ -139,15 +153,14 @@ parameters:
 1. Install Twig and the extensions you're going to use.
     - `composer require twig`
     - `composer require twig/extra-bundle`
-2. 
+2.
 
 ## 4. Produce your models
 
 1. List all your entities, think about them until you can't find new fields/properties to add.
 2. Add Doctrine DBAL + ORM (`composer require orm`).
 3. If you want to use migrations, add Doctrine Migrations (`composer require migrations`).
-    - If you have no idea what to do and work alone on your project, don't use
-      them (`composer remove doctrine/migrations`, same for dependencies).
+    - If you have no idea what to do and work alone on your project, don't use them (`composer remove doctrine/migrations`, same for dependencies).
     - If you end up using them, create a `/migrations` directory at the root directory of your project.
 4. Install the MakerBundle (`composer require --dev maker`).
 5. Use the MakerBundle to generate their CRUDL. For each entity, run `php bin/console make:crud`.
@@ -156,8 +169,7 @@ parameters:
 ## 5. Set up translations (even if you only use one language)
 
 1. Install the Translation component: `composer require symfony/translation`.
-2. Set up your default language in `config/packages/translation.yaml`. Mine looks like this (for non-geographic English
-   as the default language):
+2. Set up your default language in `config/packages/translation.yaml`. Mine looks like this (for non-geographic English as the default language):
 
 ```yaml
 framework:
@@ -196,8 +208,7 @@ parameters:
 3. Do the same in the Twig `/templates` directory: create `/admin` and `/front` subdirectories in it.
 4. Move your CRUDL controllers to `src/Controller/Admin`, and their templates to `templates/admin`.
 5. Update the namespaces, templates name references in the controllers and templates according to last point.
-6. Inside each `messages.[language].yaml` translations file, start root keys with your domains, all snake case. At least
-   they should look like this:
+6. Inside each `messages.[language].yaml` translations file, start root keys with your domains, all snake case. At least they should look like this:
 
 ```yaml
 front:
@@ -205,49 +216,100 @@ front:
 admin:
 ```
 
-7. Add constraint validation to the **maximum** properties you can set to in your entity files. 
-   - Run `composer require symfony/validator doctrine/annotations`.
-   - This supposes, at least:
-      - That ALL your fields have a `@Assert`
+7. Add constraint validation to the **maximum** properties you can set to in your entity files.
+    - Run `composer require symfony/validator doctrine/annotations`.
+    - This supposes, at least:
+        - That ALL your fields have a `@Assert`
 8. Make sure all your entities are historizable, which means they should have creation and last modification dates attached:
-   - To achieve that, use a PHP trait in all your entities.
-   - If you have no idea what this means, simply use the file `HistoryTrackableEntity.php` in this repository.
-   - Put the trait in your `src/Entities` directory.
-   - Add an `@ORM\HasLifecycleCallbacks` annotation to all your entities.
-   - Add `use HistoryTrackableEntity;` after each Entity class opening bracket (first line, before constants and properties).
-   - Update the database (`php bin/console doctrine:schema:update` or use migrations if you chose to use them).
+    - To achieve that, use a PHP trait in all your entities.
+    - If you have no idea what this means, simply use the file `HistoryTrackableEntity.php` in this repository.
+    - Put the trait in your `src/Entities` directory.
+    - Add an `@ORM\HasLifecycleCallbacks` annotation to all your entities.
+    - Add `use HistoryTrackableEntity;` after each Entity class opening bracket (first line, before constants and properties).
+    - Update the database (`php bin/console doctrine:schema:update` or use migrations if you chose to use them).
 
 ## 7. Secure your app
 
-1. Define your roles in
+1. Make a User class using the MakerBundle: `php bin/console make:user`.
+2. Make a authentication plugin using the MakerBundle: `php bin/console make:auth`. Pick a custom authenticator name.
+3. Don't forget to make the appropriate CRUDL using the MakerBundle: `php bin/console make:crud`.
+4. Modify the `new` and `edit` actions of the generated controller so that they encode passwords using `UserPasswordHasherInterface`.
+5. Define your roles in `config/packages/security.yaml`. Mine looks like this (read the comments):
 
+```yaml
+security:
+    enable_authenticator_manager: true
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\User:
+            algorithm: auto
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email # Can be anything you want
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: app_user_provider
+            custom_authenticator: App\Security\AppAuthenticator # Use your custom authenticator name here
+            logout:
+                path: app_logout
+                target: app_home # Set this to your public homepage, that defaults to "/" at least 
+
+    access_control:
+    # Uncomment this after step 6. in this chapter
+    # - { path: ^/admin, roles: ROLE_ADMIN }
+
+    role_hierarchy:
+        # Administers the whole website
+        ROLE_ADMIN: ROLE_USER
+        # Simple role added by Symfony
+        ROLE_USER:
+```
+
+6. Then create your admin user while the CRUDL are public, and set yourself to the maximum administrator role level.
+7. Once your admin user is created:
+    - Uncomment the `access_control` directive in the file above
+    - Prefix your generated `UserController` with: `#[Route('admin/user')]`.
+    - Do the same for ALL the controllers you set:
+        - behind the `src/Controller/Admin` directory,
+        - the admin ones wherever they are,
+        - and all the generated CRUDL ones.
 
 ## 8. Use TailwindCSS for styles and RWI
 
 1. Update `config/twig.yaml` and set this:
+
 ```yaml
 twig:
     # ...
-    form_themes: ['tailwind_2_layout.html.twig']
+    form_themes: [ 'tailwind_2_layout.html.twig' ]
     # ...
 ```
+
 2. Add Webpack Encore, with PurgeCSS and PostCSS:
-   - Install Node (pick the latest LTS version):
-     - On Windows and MacOS, just use the [installer](https://nodejs.org/en/download/) and restart your shell.
-     - On Linux, use your package manager (like Aptitude or Yum). `sudo su && apt-get update && apt-get install nodejs npm` at
-       least.
-   - Run `composer require encore` and `npm install`.
-   - Run `npm install -D tailwindcss postcss-loader purgecss-webpack-plugin glob-all path autoprefixer`.
-   - Setup Webpack, PostCSS and Tailwind.
-     - If you don't know what this means, simply copy the following files from this repository to your project root directory:
-       - ``
-   - Run `npm run build`.
+    - Install Node (pick the latest LTS version):
+        - On Windows and MacOS, just use the [installer](https://nodejs.org/en/download/) and restart your shell.
+        - On Linux, use your package manager (like Aptitude or Yum). `sudo su && apt-get update && apt-get install nodejs npm` at least.
+    - Run `composer require encore` and `npm install`.
+    - Run `npm install -D tailwindcss postcss-loader purgecss-webpack-plugin glob-all path autoprefixer`.
+    - Setup Webpack, PostCSS and Tailwind.
+        - If you don't know what this means, simply copy/overwrite the following files from this repository to your project root directory:
+            - `postcss.config.js`
+            - `tailwind.config.js`
+            - `webpack.config.js`
+    - Run `npm run build`.
 
 ## 9. Pre-flight checks
 
 1. Run `symfony check:security` to validate that your project has no known vulnerabilities from its dependencies.
 2. Create a deployment script for your non-dev environments.
-    - If you don't know what you're doing, use the one I provided (`production-deployment.sh.dist`) for a start.
+    - If you don't know what you're doing, use the one provided in this repository (`production-deployment.sh.dist`) for a start.
     - On your non-dev environments, copy the `production-deployment.sh.dist` to `[environment]-deployment.sh`.
     - Check that they're in the `.gitignore` and only on destination servers filesystems. Don't version the final ones.
 3. Make sure your application only uses HTTPS. Your `config/services.yaml` should contain this:
@@ -266,9 +328,35 @@ parameters:
     # ...
 ```
 
+4. Validate your project with PHP-Stan (using the shell scripts created in #1.).
+5. Validate your project with Psalm (using the shell scripts created in #1.).
+6. Validate your project with PHP-CS-Fixer (using the shell scripts created in #1.).
+7. If needed, configure your CI. There's an included sample file for GitLab CI inside this project, see `.gitlab-ci.yml` (checks that you didn't forget PHP-CS-Fixer).
+
 ## 10. Dockerize your project
 
--
+1. Create a `docker-sources` directory inside the project root directory. You'll put your Docker Compose files inside.
+2. Create a `docker-sources/containers-config` directory inside. You'll put your Dockerfiles inside, named according to the container name.
+3. Create a `environment-files` directory inside the project root directory, and move all your DotEnv files inside.
+4. Make Symfony aware that they moved, modify your `composer.json` file as follows:
+```json
+{
+    "...": "...",
+    "extra": {
+        "...": "...",
+        "runtime": {
+            "dotenv_path": "environment-files/.env"
+        }
+    }
+}
+```
+5. Create at least a `global-docker-compose.yml` inside `docker-sources`.
+6. Create at least a `[environment-name]-docker-compose.yml` inside `docker-sources` (like `dev-docker-compose.yml`).
+7. Notify your Docker Compose files that the environment files they should use are inside this directory.
+8. Add a shell script inside the project root to start the project Docker containers fast 
+   (a sample one is included in this repository: `build-and-run-dev-docker-containers.bat`).
+
+The rest will be part of your project choices.
 
 ***
 
