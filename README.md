@@ -30,11 +30,11 @@
 > - __Doctrine ORM,__
 > - __Any RDBMS.__
 
-This project assumes you start **from zero**.
+#### This project assumes you start **from zero**.
 
-This project README will remain in *one* file to ease searching from a browser.
+#### This project README will remain in *one* file to ease searching from a browser.
 
-All the files referenced in this document can be found in the `/files-you-will-need` directory of this repository.
+#### All the files referenced in this document can be found in the `/files-you-will-need` directory of this repository. This directory reflects the exact, expected directory tree as you grow it.
 
 ***
 
