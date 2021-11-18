@@ -1,0 +1,33 @@
+{% if menus is defined and base_key is defined %}
+    <ul class="menu-container">
+        {% for menu_key_1, menu_data_1 in menus %}
+            <li>
+                {% if (menu_data_1.role is defined and menu_data_1.role is not empty and is_granted(menu_data_1.role)) or (menu_data_1.role is not defined) %}
+                    <a href="{{ url(menu_key_1) }}" title="{{ (base_key ~ '.menus.' ~ menu_key_1 ~ '.title')|trans }}">{{ (base_key ~ '.menus.' ~ menu_key_1 ~ '.text')|trans }}</a>
+                {% endif %}
+                {% if menu_data_1.children is defined %}
+                    <ul>
+                        {% for menu_key_2, menu_data_2 in menu_data_1.children %}
+                            <li>
+                                {% if (menu_data_2.role is defined and menu_data_2.role is not empty and is_granted(menu_data_2.role)) or (menu_data_2.role is not defined) %}
+                                    <a href="{{ url(menu_key_2) }}" title="{{ (base_key ~ '.menus.' ~ menu_key_2 ~ '.title')|trans }}">{{ (base_key ~ '.menus.' ~ menu_key_2 ~ '.text')|trans }}</a>
+                                {% endif %}
+                                {% if menu_data_2.children is defined %}
+                                    <ul>
+                                        {% for menu_key_3, menu_data_3 in menu_data_2.children %}
+                                            <li>
+                                                {% if (menu_data_3.role is defined and menu_data_3.role is not empty and is_granted(menu_data_3.role)) or (menu_data_3.role is not defined) %}
+                                                    <a href="{{ url(menu_key_3) }}" title="{{ (base_key ~ '.menus.' ~ menu_key_3 ~ '.title')|trans }}">{{ (base_key ~ '.menus.' ~ menu_key_3 ~ '.text')|trans }}</a>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

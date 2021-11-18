@@ -199,6 +199,13 @@ twig:
         - UTF-8 charset.
         - A canonical markup for SEO (`<link rel="canonical" href="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">`).
         - Overridable blocks for all of these.
+6. Your /templates directory should at least contain:
+   - `admin`
+   - `common`
+   - `front`
+   - `registration`
+   - `security`
+   - `base.html.twig`
 
 ## 4. Produce your models
 
@@ -241,6 +248,8 @@ parameters:
 4. Create a `messages.[yourdefaultlanguage].yaml` in the `translations` folder. Don't use ICU unless you know why.
 5. Create a `validators.[yourdefaultlanguage].yaml` in the `translations` folder. Don't use ICU unless you know why.
 6. Repeat last two steps for each additional language you'll need.
+7. Whatever you'll do, make sure you keep alphabetical / ASCII order for translation keys inside YAML files.
+8. Whatever you'll do, make sure you'll ONLY use YAML-parse syntax for keys (e.g. `front.forms.users.create.name.help`).
 
 ## 6. Set up your basic application logic
 
@@ -270,6 +279,21 @@ admin:
     - Add an `@ORM\HasLifecycleCallbacks` annotation to all your entities.
     - Add `use HistoryTrackableEntity;` after each Entity class opening bracket (first line, before constants and properties).
     - Update the database (`php bin/console doctrine:schema:update` or use migrations if you chose to use them).
+9. Review ALL your forms, they need to have:
+   - `empty_data` provided, especially for non-nullable fields.
+   - `help` for all fields with filling guidelines.
+   - A clear `label` for all fields.
+   - A placeholder for all fields (`'attr' => ['placeholder' => 'your.placeholder.translation.key']`).
+10. Define a custom, static menu configuration. If you want a dynamic one or use a premade bundle like KnpMenuBundle, it's up to you.
+    - Create `model/Admin/AdminMenus.php` and `model/Front/FrontMenus.php` files.
+    - Just make them use a multidimensional `public static array $adminMenuTree = [];` array structure that returns all menus. See included `FrontMenus.php` class. 
+    - Create a Twig extension to output them, either use `make:twig-extension` or just copy the one included in this repository (`MenuExtension.php`).
+    - Then make a common template for menus (`templates/common/_menu.html.twig`) or just copy the one included in this repository.
+11. Remove the dead code in your entity repositories (`src/Repository`).
+12. Unify templates as much as you can:
+    - Move any MakerBundle-generated `_delete_form.html.twig` and `_form.html.twig` to `templates/admin/common`.
+    - Update all the CRUDL templates so they use those.
+    - Delete the remaining, unused templates.
 
 ## 7. Secure your app
 
@@ -323,6 +347,8 @@ security:
         - behind the `src/Controller/Admin` directory,
         - the admin ones wherever they are,
         - and all the generated CRUDL ones.
+8. Use the MakerBundle to make a registration process (`php bin/console make:registration-form`).
+9. The `SecurityController.php` and `RegistrationController.php` stay at the root of `src/Controller` directory.
 
 ## 8. Use TailwindCSS for styles and RWI
 
@@ -347,6 +373,18 @@ twig:
             - `tailwind.config.js`
             - `webpack.config.js`
     - Run `npm run build`.
+3. Make sure you have the following structure at least in `assets`:
+   - `controllers`
+   - `favicon`
+   - `fonts`
+   - `images`
+   - `styles`
+   - `app.js`
+   - `bootstrap.js`
+   - `controllers.json`
+4. Create a favicon and add its configuration to your `base.html.twig` and `assets/favicon/browserconfig.xml`.
+5. Create a default OpenGraph image for your site and put it in `assets/images` (name it `ogimage.jpg` if you copied the included files of this project).
+6. Prepare an external shell script to start your project from your user home directory. See an example with `start-project` included scripts.
 
 ## 9. Pre-flight checks
 
@@ -378,6 +416,13 @@ parameters:
 8. Add a `robots.txt` file inside the `public` directory. Use the one provided in this repository for a start.
 9. Add a `site.webmanifest` file inside the `public` directory. Use the one provided in this repository for a start.
 10. Enable it by adding this to your `base.html.twig` file: `<link rel="manifest" href="{{ asset('site.webmanifest') }}">`.
+11. Finally, you can start your project (locally) using:
+    - `symfony local:server:ca:install`
+    - `symfony server:start -d`
+    - `npm run watch`
+12. And you can prepare your assets for deployment using: `npm run build`.
+13. Configure your non-dev environments (this goes way beyond this project boundaries ^^). If your non-dev servers are Apache, you can use `composer require symfony/apache-pack`.
+14. Start writing PHPUnit tests under the `tests/` directory. You will need WAY less of them as long as your code passes PHP-Stan and Psalm maximum level scans.
 
 ## 10. Dockerize your project
 

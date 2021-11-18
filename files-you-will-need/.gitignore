@@ -4,9 +4,6 @@
 # Ignore everyon's local deployment scripts :)
 production-deployment.sh
 
-# CI-only
-frontend/composer-stable.phar
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
