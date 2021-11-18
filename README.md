@@ -152,6 +152,7 @@ parameters:
 5. Add a `.editorconfig` file at the root directory of your project to ensure your IDE settings don't get messed up.
     - At least set it up so you use UTF-8, `LF` characters for newlines and 4 spaces as tabulations.
     - If you don't, just use the one in this repository (`.editorconfig`).
+6. If you know what you're doing, use REDIS to store PHP sessions at least. Try it for custom cache pools (this goes beyond the purpose of this document).
 
 ## 3. Set up your Twig templates
 
@@ -393,6 +394,7 @@ twig:
     - If you don't know what you're doing, use the one provided in this repository (`production-deployment.sh.dist`) for a start.
     - On your non-dev environments, copy the `production-deployment.sh.dist` to `[environment]-deployment.sh`.
     - Check that they're in the `.gitignore` and only on destination servers filesystems. Don't version the final ones.
+    - Use those scripts to clear OpCache and realpath caches.
 3. Make sure your application only uses HTTPS. Your `config/services.yaml` should contain this:
 
 ```yaml
@@ -423,6 +425,18 @@ parameters:
 12. And you can prepare your assets for deployment using: `npm run build`.
 13. Configure your non-dev environments (this goes way beyond this project boundaries ^^). If your non-dev servers are Apache, you can use `composer require symfony/apache-pack`.
 14. Start writing PHPUnit tests under the `tests/` directory. You will need WAY less of them as long as your code passes PHP-Stan and Psalm maximum level scans.
+15. On production servers, make sure:
+    - PHP `memory_limit` is set just around `8M` for CLI and `1M` for web SAPIs. More if PHP processes files.
+    - PHP `max_execution_time` is set to `1200` for CLI and `30` for wep SAPIs. More for CLI if your app has heavy CLI processing.
+    - PHP `realpath_cache_size` is set to `512K` for CLI and `16M` for wep SAPIs.
+    - PHP `realpath_cache_ttl` is set to `600` for CLI and `2000` for wep SAPIs.
+    - PHP OpCache is configured:
+      - `opcache.preload=[your project path]/config/preload.php` and set `parameters.container.dumper.inline_factories: true` in `config/services.yaml`
+      - `opcache.preload_user=www-data`
+      - `opcache.memory_consumption=1M`
+      - `opcache.max_accelerated_files=100000`
+      - `opcache.validate_timestamps=0` (WARNING: this implies that your deployment scripts empty OpCache pools)
+    - Dump the autoloader classmap statically in your deployment script (`composer dump-autoload --no-dev --classmap-authoritative`).
 
 ## 10. Dockerize your project
 

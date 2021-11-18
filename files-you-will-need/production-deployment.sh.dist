@@ -43,6 +43,21 @@ echo -e "\e[0m"
 /usr/local/php8.0/bin/php bin/console doctrine:schema:update --force --env=prod
 
 echo -e "\e[32m#####################################################################################"
+echo -e "\e[32m##################### Deployment Step 5: PHP Caches clearing ########################"
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[0m"
+
+/usr/local/php8.0/bin/php -r "if(function_exists('opcache_reset')){opcache_reset();}"
+/usr/local/php8.0/bin/php -r "if(function_exists('clearstatcache')){clearstatcache();}"
+
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[32m################### Deployment Step 6: Autoloader optimization ######################"
+echo -e "\e[32m#####################################################################################"
+echo -e "\e[0m"
+
+/usr/local/php8.0/bin/php composer.phar dump-autoload --no-dev --classmap-authoritative
+
+echo -e "\e[32m#####################################################################################"
 echo -e "\e[32m################################ Deployment complete ################################"
 echo -e "\e[32m#####################################################################################"
 echo -e "\e[0m"
