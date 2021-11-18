@@ -460,6 +460,12 @@ parameters:
 19. Make sure you have resized all user-generated images with LiipImagineBundle (`composer require liip/imagine-bundle`) and use `srcset` HTML5 attribute.
 20. Make sure you have optimized **all** your theme images using [TinyPng](https://tinypng.com/). 
 21. Make sure you have no remaining missing translations (`php bin/console debug:translation [your locale]`).
+22. Make sure you browser console is absolutely empty, no:
+    - CORS alerts
+    - JavaScript errors
+    - Bad cookie API usages
+    - 404 on files
+    - Other browser warnings
 
 ## 10. Dockerize your project
 
