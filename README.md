@@ -200,13 +200,14 @@ twig:
         - UTF-8 charset.
         - A canonical markup for SEO (`<link rel="canonical" href="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">`).
         - Overridable blocks for all of these.
-6. Your /templates directory should at least contain:
+6. Your `/templates` directory should at least contain:
    - `admin`
    - `common`
    - `front`
    - `registration`
    - `security`
    - `base.html.twig`
+7. Make sure **all** the files and directories under `/templates` use snake_case only for their filenames.
 
 ## 4. Produce your models
 
@@ -218,6 +219,7 @@ twig:
 4. Install the MakerBundle (`composer require --dev maker`).
 5. Use the MakerBundle to generate their CRUDL. For each entity, run `php bin/console make:crud`.
 6. Create a `Model` directory under `/src` to store all models that are not entities.
+7. Make sure **all** the files and directories under `/src` use CamelCase only for their filenames.
 
 ## 5. Set up translations (even if you only use one language)
 
@@ -251,6 +253,7 @@ parameters:
 6. Repeat last two steps for each additional language you'll need.
 7. Whatever you'll do, make sure you keep alphabetical / ASCII order for translation keys inside YAML files.
 8. Whatever you'll do, make sure you'll ONLY use YAML-parse syntax for keys (e.g. `front.forms.users.create.name.help`).
+9. Make sure **all** the files and directories under `/translations` use snake_case only for their filenames.
 
 ## 6. Set up your basic application logic
 
@@ -443,6 +446,19 @@ parameters:
       - `git rev-parse refs/remotes/origin/master` (or any deployment branch)
       - `git checkout -f master` (or any deployment branch)
     - You have entities updated through deployment. Migrations if you're not alone, straight schema update if you are (see above).
+16. Start profiling your app:
+    - Use a free [BlackFire](https://www.blackfire.io/) environment (limited, if you're not an individual, consider buying a license) and profile your app.
+    - Use the Symfony profiler (`composer require --dev symfony/profiler-pack`) and take a look at:
+      - Your queries. You can reduce them to the minimum (between 0 and 1 per page) easily.
+      - Use Twig `{% cache 'your_key' ttl(600) %}{% endcache %}` for anything locally cachable. 
+      - Otherwise, add caching to your controllers and models:
+        - Create a cache pool.
+        - Use it by memoizing your actions.
+17. Add expiration headers to anything that simply returns entities for a given HTTP request, give them at least 10 minutes, at best a day or more. 
+18. Add validation headers to any complex action that has non-linear behaviour.
+19. Make sure you have resized all user-generated images with LiipImagineBundle (`composer require liip/imagine-bundle`).
+20. Make sure you have optimized **all** your theme images using [TinyPng](https://tinypng.com/). 
+21. Make sure you have no remaining missing translations (`php bin/console debug:translation [your locale]`).
 
 ## 10. Dockerize your project
 
