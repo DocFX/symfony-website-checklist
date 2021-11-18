@@ -23,7 +23,6 @@ echo -e "\e[32m################ Deployment Step 2: Composer dependencies and set
 echo -e "\e[32m#####################################################################################"
 echo -e "\e[0m"
 
-cd frontend || exit
 wget -O composer.phar https://getcomposer.org/composer-stable.phar
 
 /usr/local/php8.0/bin/php composer.phar update --no-scripts

@@ -436,7 +436,13 @@ parameters:
       - `opcache.memory_consumption=1M`
       - `opcache.max_accelerated_files=100000`
       - `opcache.validate_timestamps=0` (WARNING: this implies that your deployment scripts empty OpCache pools)
-    - Dump the autoloader classmap statically in your deployment script (`composer dump-autoload --no-dev --classmap-authoritative`).
+    - You dump the autoloader classmap statically in your deployment script (`composer dump-autoload --no-dev --classmap-authoritative`).
+    - You have chmod'ed (`755`) your upload, cache and logs directories. Use umask if necessary.
+    - You deploy via Git exclusively:
+      - `git fetch --all`
+      - `git rev-parse refs/remotes/origin/master` (or any deployment branch)
+      - `git checkout -f master` (or any deployment branch)
+    - You have entities updated through deployment. Migrations if you're not alone, straight schema update if you are (see above).
 
 ## 10. Dockerize your project
 
