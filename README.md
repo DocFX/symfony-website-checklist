@@ -450,13 +450,13 @@ parameters:
     - Use a free [BlackFire](https://www.blackfire.io/) environment (limited, if you're not an individual, consider buying a license) and profile your app.
     - Use the Symfony profiler (`composer require --dev symfony/profiler-pack`) and take a look at:
       - Your queries. You can reduce them to the minimum (between 0 and 1 per page) easily.
-      - Use Twig `{% cache 'your_key' ttl(600) %}{% endcache %}` for anything locally cachable. 
+      - Use Twig `{% cache 'your_key' ttl(600) %}{% endcache %}` for anything locally cacheable especially the results of Twig functions that use DB. 
       - Otherwise, add caching to your controllers and models:
         - Create a cache pool.
         - Use it by memoizing your actions.
 17. Add expiration headers to anything that simply returns entities for a given HTTP request, give them at least 10 minutes, at best a day or more. 
 18. Add validation headers to any complex action that has non-linear behaviour.
-19. Make sure you have resized all user-generated images with LiipImagineBundle (`composer require liip/imagine-bundle`).
+19. Make sure you have resized all user-generated images with LiipImagineBundle (`composer require liip/imagine-bundle`) and use `srcset` HTML5 attribute.
 20. Make sure you have optimized **all** your theme images using [TinyPng](https://tinypng.com/). 
 21. Make sure you have no remaining missing translations (`php bin/console debug:translation [your locale]`).
 
