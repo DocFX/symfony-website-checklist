@@ -353,6 +353,7 @@ security:
         - and all the generated CRUDL ones.
 8. Use the MakerBundle to make a registration process (`php bin/console make:registration-form`).
 9. The `SecurityController.php` and `RegistrationController.php` stay at the root of `src/Controller` directory.
+10. Run `composer require tgalopin/html-sanitizer-bundle` and sanitize all user-generated fields that are displayed without escaping.
 
 ## 8. Use TailwindCSS for styles and RWI
 
