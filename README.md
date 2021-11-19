@@ -468,6 +468,7 @@ parameters:
     - Bad cookie API usages
     - 404 on files
     - Other browser warnings
+23. Check that your services definitions are OK using `php bin/console lint:container`.
 
 ## 10. Dockerize your project
 
