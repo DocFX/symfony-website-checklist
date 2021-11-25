@@ -221,7 +221,8 @@ twig:
 6. Create a `Model` directory under `/src` to store all models that are not entities.
 7. Make sure **all** the files and directories under `/src` use CamelCase only for their filenames.
 8. Check that your entities are valid using `php bin/console doctrine:schema:validate`.
-9. If you're using migrations, check that you're good with `php bin/console doctrine:migrations:up-to-date`;
+9. If you're using migrations, check that you're good with `php bin/console doctrine:migrations:up-to-date`.
+10. Slugify all your public content URLs in the form of `[domain]/[entity type]/{slug}-{id}` using `AsciiSlugger`. Remove the words shorter than 3 characters.
 
 ## 5. Set up translations (even if you only use one language)
 
