@@ -208,6 +208,7 @@ twig:
    - `security`
    - `base.html.twig`
 7. Make sure **all** the files and directories under `/templates` use snake_case only for their filenames.
+8. Add file input previews to all image fields using a `LiipImagineBundle` preset through a custom form theme (`add it in config/twig.yaml`).
 
 ## 4. Produce your models
 
