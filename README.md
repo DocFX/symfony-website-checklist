@@ -354,21 +354,21 @@ security:
     - Prefix your generated `UserController` with: `#[Route('admin/user')]`.
     - Do the same for ALL the controllers you set:
         - behind the `src/Controller/Admin` directory,
-        - the admin ones wherever they are,
+        - the admin ones wherever they are,~~~~
         - and all the generated CRUDL ones.
 8. Use the MakerBundle to make a registration process (`php bin/console make:registration-form`).
 9. The `SecurityController.php` and `RegistrationController.php` stay at the root of `src/Controller` directory.
 10. Run `composer require tgalopin/html-sanitizer-bundle` and sanitize all user-generated fields that are displayed without escaping.
-11. Configure the `framework.trusted_hosts` and `framework.trusted_headers` parameters. 
+11. Configure the `framework.trusted_hosts` and `framework.trusted_headers` parameters in your `config/packages/prod/framework.yaml` file (or any environment file needed). 
 12. Check your app through `https://github.com/fabpot/local-php-security-checker` on a regular basis (add it to your CI and your local habits).
 13. Every time you add an action, before you even start writing it, check the security first. Do the same when you're done. 
 14. Make sure you use absolutely generic and unique error messages for login and password reset actions. Don't reveal what was wrong on user side.
 
-## 8. Use TailwindCSS for styles and RWI
+## 8. Use TailwindCSS for styles and RWI~~~~
 
 1. Update `config/twig.yaml` and set this:
 
-```yaml
+```yaml~~~~
 twig:
     # ...
     form_themes: [ 'tailwind_2_layout.html.twig' ]
