@@ -1,1 +1,4 @@
 theme: jekyll-theme-slate
+title: Symfony Website Checklist
+description: This project lists all the mandatory steps I recommend to build a website using HTTPS + HTML output, a local, PHP-integrated server first, Docker as a ""maybe"" later on, Symfony, Twig, Doctrine ORM, any RDBMS.
+
