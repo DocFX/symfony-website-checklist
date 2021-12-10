@@ -1,10 +1,10 @@
 ![](readme-sources/symfony-website-checklist.jpg)
 
-{% raw %}
+{% raw %} <-- keep this for Jekyll to fully bypass this documents, because of the Twig tags.
 
 # Symfony Website Checklist 📑
 
-## Summary
+## Summary~~~~
 
 - [Elevator pitch](#elevator-pitch)
 - [Philosophy](#philosophy)
@@ -518,4 +518,5 @@ The rest will be part of your project choices. ;)
 *Image taken from free image stock [UnSplash / Guillaume Jaillet](https://unsplash.com/photos/Nl-GCtizDHg).*
 
 
-{% endraw %}
+{% endraw %} <-- keep this for Jekyll to fully bypass this documents, because of the Twig tags.
+~~~~
