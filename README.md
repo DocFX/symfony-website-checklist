@@ -1,5 +1,7 @@
 ![](readme-sources/symfony-website-checklist.jpg)
 
+{% raw %}
+
 # Symfony Website Checklist 📑
 
 ## Summary
@@ -460,7 +462,7 @@ parameters:
     - Use a free [BlackFire](https://www.blackfire.io/) environment (limited, if you're not an individual, consider buying a license) and profile your app.
     - Use the Symfony profiler (`composer require --dev symfony/profiler-pack`) and take a look at:
       - Your queries. You can reduce them to the minimum (between 0 and 1 per page) easily.
-      - {% raw %}Use Twig ```{% cache 'your_key' ttl(600) %}{% endcache %}``` for anything locally cacheable especially the results of Twig functions that use DB.{% endraw %} 
+      - Use Twig ```{% cache 'your_key' ttl(600) %}{% endcache %}``` for anything locally cacheable especially the results of Twig functions that use DB. 
       - Otherwise, add caching to your controllers and models:
         - Create a cache pool.
         - Use it by memoizing your actions.
@@ -508,3 +510,6 @@ The rest will be part of your project choices. ;)
 ***
 
 *Image taken from free image stock [UnSplash / Guillaume Jaillet](https://unsplash.com/photos/Nl-GCtizDHg).*
+
+
+{% endraw %}
