@@ -72,6 +72,12 @@ All contributions and suggestions are welcome. 😇
 
 ## 1. Set up your environment
 
+This section applies to any local, host OS or Docker project construction. 
+
+> If you intend to use Docker the super fast way, you can bypass this section.  
+> - Head up to point #10 in this document if you're building everything yourself.
+> - Head up to [https://symfony.com/blog/introducing-docker-support](https://symfony.com/blog/introducing-docker-support) and [https://github.com/dunglas/symfony-docker](https://github.com/dunglas/symfony-docker) otherwise.
+
 1. Set up PHP/latest.  
    On Linux, use your package manager (like Aptitude or Yum). `sudo su && apt-get update && apt-get install php8` at least.  
    On MacOS, use [Brew](https://brew.sh/) through `brew install php`.  
