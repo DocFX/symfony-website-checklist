@@ -370,7 +370,7 @@ security:
 
 1. Update `config/twig.yaml` and set this:
 
-```yaml~~~~
+```yaml
 twig:
     # ...
     form_themes: [ 'tailwind_2_layout.html.twig' ]
@@ -462,7 +462,7 @@ parameters:
     - Use a free [BlackFire](https://www.blackfire.io/) environment (limited, if you're not an individual, consider buying a license) and profile your app.
     - Use the Symfony profiler (`composer require --dev symfony/profiler-pack`) and take a look at:
       - Your queries. You can reduce them to the minimum (between 0 and 1 per page) easily.
-      - Use Twig ```{% cache 'your_key' ttl(600) %}{% endcache %}``` for anything locally cacheable especially the results of Twig functions that use DB. 
+      - Use Twig `{% cache 'your_key' ttl(600) %}{% endcache %}` for anything locally cacheable especially the results of Twig functions that use DB. 
       - Otherwise, add caching to your controllers and models:
         - Create a cache pool.
         - Use it by memoizing your actions.
