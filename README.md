@@ -318,6 +318,16 @@ admin:
     - Move any MakerBundle-generated `_delete_form.html.twig` and `_form.html.twig` to `templates/admin/common`.
     - Update all the CRUDL templates so they use those.
     - Delete the remaining, unused templates.
+13. Make sure your app doesn't send emails, apart from user account management (account creation, password reset). Most of them are not necessary.
+14. As much as you can, try to offer an eco-friendly version of your app. To do so:
+    - Use cookies (since they're functional, they're GPDR-compliant) to remember usage choice.
+    - Create eco-friendly and regular Twig layouts. 
+    - Pick up the top layout from your cookies as defined above.
+    - Load only one compressed, optimized, alternate CSS stylesheet.
+    - Include all accessibility HTML, removed the decorative HTML by using the same Twig conditions on cookies.
+    - When cookies are not set, redirect the user to a minimal choice page.
+    - If your application logic requires an update because of that, you need to rethink how it works.
+    - Don't forget responsive web integration as well.
 
 ## 7. Secure your app
 
