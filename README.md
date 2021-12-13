@@ -98,7 +98,7 @@ This section applies to any local, host OS or Docker project construction.
         - The complete list is [here](https://www.php.net/manual/en/timezones.php).
 4. On Windows, download and install [Composer Setup](https://getcomposer.org/Composer-Setup.exe)
    and [Symfony Setup](https://get.symfony.com/cli/setup.exe).
-5. Check that you got everything OK using `symfony check:requirements` in any directory. Ignore the *"Enable or install a PHP accelerator"* advice.
+5. Check that you got everything OK using `symfony check:requirements` in any environement. Ignore the *"Enable or install a PHP accelerator"* advice in development.
 6. Start from an empty directory, use `symfony new [your_project_directory_name]`.
 7. Create a `README.md` file inside the root directory and put everything you can document inside, at least those sections:
     - The **title** of the project.
@@ -218,6 +218,13 @@ twig:
    - `base.html.twig`
 7. Make sure **all** the files and directories under `/templates` use snake_case only for their filenames.
 8. Add file input previews to all image fields using a `LiipImagineBundle` preset through a custom form theme (`add it in config/twig.yaml`).
+9. Customize your error pages. 
+     - The whole tutorial is in the documentation ([https://symfony.com/doc/current/controller/error_pages.html](https://symfony.com/doc/current/controller/error_pages.html)).
+     - This implies that you change at least the basic messages: HTTP 500, 404 and 403 (if you don't use them, you app seems weird or overcomfident).  
+     - Basically, this simply means you need to create templates in `templates/bundles/TwigBundle/Exception`, don't forget to start with a generic one: `error.html.twig`.  
+     - Test them during development (there's a simple way to do that, you don't need to generate the errors, the framework will create artificial routes for you)
+     - Use a friendly message for the content, put something nice (and funny, to compensante the sadness of viewing error pages), with jokes linked to your website contents.
+     - Include a way for people to go on browsing. You have to have all main navigation, menus and incentives to redirect users to the most common pages.
 
 ## 4. Produce your models
 
@@ -404,19 +411,20 @@ twig:
    - `app.js`
    - `bootstrap.js`
    - `controllers.json`
-4. Create a favicon and add its configuration to your `base.html.twig` and `assets/favicon/browserconfig.xml`.
+4. Create a favicon and add its configuration to your `base.html.twig` and `assets/favicon/browserconfig.xml`. Use a favicon generator for that and a manifest file.
 5. Create a default OpenGraph image for your site and put it in `assets/images` (name it `ogimage.jpg` if you copied the included files of this project).
 6. Prepare an external shell script to start your project from your user home directory. See an example with `start-project` included scripts.
 
 ## 9. Pre-flight checks
 
 1. Run `symfony check:security` to validate that your project has no known vulnerabilities from its dependencies.
-2. Create a deployment script for your non-dev environments.
+2. Check that you got everything OK using `symfony check:requirements` while on the production server (see above). This time, pay attention to OPCache (see below).
+3. Create a deployment script for your non-dev environments.
     - If you don't know what you're doing, use the one provided in this repository (`production-deployment.sh.dist`) for a start.
     - On your non-dev environments, copy the `production-deployment.sh.dist` to `[environment]-deployment.sh`.
     - Check that they're in the `.gitignore` and only on destination servers filesystems. Don't version the final ones.
     - Use those scripts to clear OpCache and realpath caches.
-3. Make sure your application only uses HTTPS. Your `config/services.yaml` should contain this:
+4. Make sure your application only uses HTTPS. Your `config/services.yaml` should contain this:
 
 ```yaml
 parameters:
@@ -485,6 +493,7 @@ parameters:
     - Other browser warnings
 23. Check that your services definitions are OK using `php bin/console lint:container`.
 24. Unless your website ecosystem doesn't like it, configure your web server to use `SameSite / strict` cookies. 
+25. Define a custom (random) string for the `APP_SECRET` variable in your DotEnv file, one for each different environement.
 
 ## 10. Dockerize your project
 
