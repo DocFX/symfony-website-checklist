@@ -225,6 +225,11 @@ twig:
      - Test them during development (there's a simple way to do that, you don't need to generate the errors, the framework will create artificial routes for you)
      - Use a friendly message for the content, put something nice (and funny, to compensante the sadness of viewing error pages), with jokes linked to your website contents.
      - Include a way for people to go on browsing. You have to have all main navigation, menus and incentives to redirect users to the most common pages.
+10. Customize your error (_flash_) messages:
+    - Add classes to your messages. Design them so that they use iconic fonts, like [Fontello](https://fontello.com/).
+    - Use the [PSR-3](https://www.php-fig.org/psr/psr-3/) error types if you lack imagination (`info notice warning error`) and add "`success`", too.
+    - Make sure they don't take too much place nor break your design but can be stacked.
+    - Output them with `|raw` to use links and HTML, but NEVER output anything from the user or not sanitized in their contents (could be a security flaw).
 
 ## 4. Produce your models
 
@@ -308,6 +313,7 @@ admin:
    - `help` for all fields with filling guidelines.
    - A clear `label` for all fields.
    - A placeholder for all fields (`'attr' => ['placeholder' => 'your.placeholder.translation.key']`).
+   - Localized form errors.
 10. Define a custom, static menu configuration. If you want a dynamic one or use a premade bundle like KnpMenuBundle, it's up to you.
     - Create `model/Admin/AdminMenus.php` and `model/Front/FrontMenus.php` files.
     - Just make them use a multidimensional `public static array $adminMenuTree = [];` array structure that returns all menus. See included `FrontMenus.php` class. 
