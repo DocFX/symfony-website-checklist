@@ -116,6 +116,17 @@ This section applies to any local, host OS or Docker project construction.
     - Change the `APP_SECRET` value to anything.
     - Change the `DATABASE_URL` to the appropriate values to connect to your RDBMS.
 11. If you use PHPStorm, use *`File > Manage IDE settings > Import settings`* and pick up the `phpstorm-settings.zip` included in this repository.
+12. Configure Git:
+    - `git config --global rebase.autostash true`
+    - `git config --global rebase.autosquash true`
+    - `git config --global rebase.abbreviateCommands true`
+    - `git config --global rebase.instructionFormat "[%an @ %ar] %s"`
+    - `git config --global core.excludesfile ~/.gitignore`
+    - `git config --global core.autocrlf false`
+    - `echo ".idea" >> ~/.gitignore`
+    - `echo ".DS_Store" >> ~/.gitignore`
+    - `echo ".vscode" >> ~/.gitignore`
+    
 
 ## 2. Set up a new Symfony project
 
