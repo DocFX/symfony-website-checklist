@@ -4,7 +4,7 @@
 
 # Symfony Website Checklist 📑
 
-## Summary~~~~
+## Summary
 
 - [Elevator pitch](#elevator-pitch)
 - [Philosophy](#philosophy)
@@ -241,6 +241,12 @@ twig:
     - Use the [PSR-3](https://www.php-fig.org/psr/psr-3/) error types if you lack imagination (`info notice warning error`) and add "`success`", too.
     - Make sure they don't take too much place nor break your design but can be stacked.
     - Output them with `|raw` to use links and HTML, but NEVER output anything from the user or not sanitized in their contents (could be a security flaw).
+11. Add a template with breadcrumbs:
+    - Any controller action should provide an array of elements (link title, link text, order, hypermedia URL). Or auto-generated breadcurmb items.
+    - Add schema.org breadcrumb data, using JSON-LD, following [Google recommendations](https://developers.google.com/search/docs/advanced/structured-data/breadcrumb).
+    - Using defensive programming (if not set, no breadcrumb, no JSON-LD).
+    - Make sure your breadcrumb order is coherent across pages.
+    - Use the template in this repository as a start if needed (`files-you-will-need/templates/common/_breadcrumb.html.twig~~~~`).
 
 ## 4. Produce your models
 
@@ -396,7 +402,7 @@ security:
     - Prefix your generated `UserController` with: `#[Route('admin/user')]`.
     - Do the same for ALL the controllers you set:
         - behind the `src/Controller/Admin` directory,
-        - the admin ones wherever they are,~~~~
+        - the admin ones wherever they are,
         - and all the generated CRUDL ones.
 8. Use the MakerBundle to make a registration process (`php bin/console make:registration-form`).
 9. The `SecurityController.php` and `RegistrationController.php` stay at the root of `src/Controller` directory.
@@ -406,7 +412,7 @@ security:
 13. Every time you add an action, before you even start writing it, check the security first. Do the same when you're done. 
 14. Make sure you use absolutely generic and unique error messages for login and password reset actions. Don't reveal what was wrong on user side.
 
-## 8. Use TailwindCSS for styles and RWI~~~~
+## 8. Use TailwindCSS for styles and RWI
 
 1. Update `config/twig.yaml` and set this:
 
@@ -555,4 +561,3 @@ The rest will be part of your project choices. ;)
 
 
 {% endraw %} <-- keep this for Jekyll to fully bypass this documents, because of the Twig tags.
-~~~~

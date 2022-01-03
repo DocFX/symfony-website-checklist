@@ -1,0 +1,38 @@
+{% if breadcrumb is defined and breadcrumb is iterable and breadcrumb is not empty %}
+    <div class="breadcrumb">
+        {% for item in breadcrumb %}
+            {% if item.text is defined and item.text is not empty %}
+                {% if loop.index > 1 %}
+                    <span class="separator">▸</span>
+                {% endif %}
+                {% if item.link is defined and item.link is not empty %}
+                    <a href="{{ item.link }}" {% if item.title is defined and item.title is not empty %}title="{{ item.title }}"{% endif %}>
+                        {{ item.text }}
+                    </a>
+                {% else %}
+                    <span {% if item.title is defined and item.title is not empty %}title="{{ item.title }}"{% endif %}>
+                        {{ item.text }}
+                    </span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {%~ for item in breadcrumb ~%}
+                    {%~ if item.link is defined and item.link is not empty and item.text is defined and item.text is not empty ~%}
+                        {
+                            "@type": "ListItem",
+                            "position": {{ loop.index }},
+                            "name": "{{- item.text|replace({'"': ''}) -}}",
+                            "item": "{{- item.link -}}"
+                        }{%- if not loop.last -%},{%- endif ~%}
+                    {%~ endif ~%}
+                {%~ endfor ~%}
+            ]
+        }
+    </script>
+{% endif %}
