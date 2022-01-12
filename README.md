@@ -487,7 +487,7 @@ parameters:
 12. And you can prepare your assets for deployment using: `npm run build`.
 13. Configure your non-dev environments (this goes way beyond this project boundaries ^^). If your non-dev servers are Apache, you can use `composer require symfony/apache-pack`.
 14. Start writing PHPUnit tests under the `tests/` directory. You will need WAY less of them as long as your code passes PHP-Stan and Psalm maximum level scans.
-15. On production servers, make sure:
+15. On production servers, make sure (if you have access to the PHP configuration and your project is the only one, which it should be):
     - PHP `memory_limit` is set just around `8M` for CLI and `1M` for web SAPIs. More if PHP processes files.
     - PHP `max_execution_time` is set to `1200` for CLI and `30` for wep SAPIs. More for CLI if your app has heavy CLI processing.
     - PHP `realpath_cache_size` is set to `512K` for CLI and `16M` for wep SAPIs.
@@ -527,6 +527,8 @@ parameters:
 23. Check that your services definitions are OK using `php bin/console lint:container`.
 24. Unless your website ecosystem doesn't like it, configure your web server to use `SameSite / strict` cookies. 
 25. Define a custom (random) string for the `APP_SECRET` variable in your DotEnv file, one for each different environement.
+26. Fix your Composer dependencies versions in your `composer.json` file. Make them use only patch upgrades within Semantic versioning.
+27. On production 
 
 ## 10. Dockerize your project
 
