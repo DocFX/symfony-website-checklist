@@ -246,7 +246,7 @@ twig:
     - Add schema.org breadcrumb data, using JSON-LD, following [Google recommendations](https://developers.google.com/search/docs/advanced/structured-data/breadcrumb).
     - Using defensive programming (if not set, no breadcrumb, no JSON-LD).
     - Make sure your breadcrumb order is coherent across pages.
-    - Use the template in this repository as a start if needed (`files-you-will-need/templates/common/_breadcrumb.html.twig~~~~`).
+    - Use the template in this repository as a start if needed (`files-you-will-need/templates/common/_breadcrumb.html.twig`).
 
 ## 4. Produce your models
 
@@ -351,6 +351,12 @@ admin:
     - When cookies are not set, redirect the user to a minimal choice page.
     - If your application logic requires an update because of that, you need to rethink how it works.
     - Don't forget responsive web integration as well.
+15. Make sure people can't manipulate entites that they're not supposed to:
+    - Because of roles hiearchy
+    - Because of missing roles
+    - Because of bad Security API use
+    - Because of no ownership checks on entities
+    - Because of bad HTTP methods
 
 ## 7. Secure your app
 
