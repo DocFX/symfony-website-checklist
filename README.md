@@ -262,6 +262,7 @@ twig:
 8. Check that your entities are valid using `php bin/console doctrine:schema:validate`.
 9. If you're using migrations, check that you're good with `php bin/console doctrine:migrations:up-to-date`.
 10. Slugify all your public content URLs in the form of `[domain]/[entity type]/{slug}-{id}` using `AsciiSlugger`. Remove the words shorter than 3 characters.
+11. Make sure if entites are tightly linked and fetching one of them always requires/triggers another one, use `fetch="EAGER"``on your `ManyToOne` relations.
 
 ## 5. Set up translations (even if you only use one language)
 
