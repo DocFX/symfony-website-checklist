@@ -247,6 +247,8 @@ twig:
     - Using defensive programming (if not set, no breadcrumb, no JSON-LD).
     - Make sure your breadcrumb order is coherent across pages.
     - Use the template in this repository as a start if needed (`files-you-will-need/templates/common/_breadcrumb.html.twig`).
+12. Make sure your `<title>` markup doesn't contain any HTML markup nor non-escaped special characters. Do the same for all the `<head>` contents.
+13. Validate all your whole page template using production environment and the [W3C HTML Validator](https://validator.w3.org/). Do the same [for CSS](https://jigsaw.w3.org/css-validator/).
 
 ## 4. Produce your models
 
@@ -531,6 +533,7 @@ parameters:
     - Bad cookie API usages
     - 404 on files
     - Other browser warnings
+    - Obsolete calls / libraries.
 23. Check that your services definitions are OK using `php bin/console lint:container`.
 24. Unless your website ecosystem doesn't like it, configure your web server to use `SameSite / strict` cookies. 
 25. Define a custom (random) string for the `APP_SECRET` variable in your DotEnv file, one for each different environement.
