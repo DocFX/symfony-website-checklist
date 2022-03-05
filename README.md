@@ -173,6 +173,17 @@ parameters:
     - If you don't, just use the one in this repository (`.editorconfig`).
 6. If you know what you're doing, use REDIS to store PHP sessions at least. Try it for custom cache pools (this goes beyond the purpose of this document).
 7. Make sure you provide the appropriate DSN for your databases and the right `serverVersion` parameter. Use dynamic parameters with `$` to set them up.
+8. In your `composer.json` file, group requirements, to allow better upgrades, like:
+   - PHP-related
+   - Extension polyfills (like `ext-ctype`, etc.)
+   - Composer-related (Flex, package deprecations, etc.)
+   - Symfony core-related
+   - Symfony non-core-related (Webpack, Sensio, SymfonyCasts, etc.)
+   - Twig-related
+   - Doctrine or any other DB stuff-related
+   - Other external libraries
+   - Same for `require-dev`: group by Symfony-related, PHP-CS-Fixer, static analyzers, etc.
+
 
 ## 3. Set up your Twig templates
 
