@@ -57,6 +57,9 @@
         </tr>
         <tr>
             <td>The faster way would be to read <a href="https://symfony.com/doc/current/the-fast-track/en/index.html" title="Read The Fast Track">The Fast Track</a>, precisely written by <a href="https://twitter.com/fabpot" title="Follow Fabien on Twitter!">Fabien Potencier</a>.</td>
+        </tr>     
+        <tr>
+            <td>A complementary faster way would be to read <a href="https://symfony.com/doc/current/best_practices.html" title="Read The Best Practices">the framework best practices</a> (mostly focused on Symfony).</td>
         </tr>
         <tr>
             <td>The fastest way to me, trading possibilities for opinions, should be this repository.</td>
