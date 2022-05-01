@@ -605,7 +605,7 @@ parameters:
 30. Test RTL language if applicable.
 31. Use [OpQuast checklists](https://checklists.opquast.com/en/web-quality-assurance/) to further investigate potential design/UX flaws.
 32. Make sure your server supports and actually uses Gzip compression. 
-33. Configure default cache headers for all assets on your web server, especially if you use a CDN, and test those headers.~~~~
+33. Configure default cache headers for all assets on your web server, especially if you use a CDN, and test those headers.
 
 
 ## 10. Dockerize your project
