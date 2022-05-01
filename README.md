@@ -223,16 +223,20 @@ twig:
 5. If you didn't copy the files from the previous step, then do as follows:
     - Create a layout file inside each domain subdirectory, name it as follows: `[domain]_layout.html.twig`.
     - Add a base class block to your `<html>` tag in `base.html.twig` template and override it in each `[domain]_layout.html.twig` templates.
-    - Define your metadata in your `base.html.twig`, at least:
+    - Define your metadata in your `base.html.twig`, at least (including default strategy):
+        - `<html>` defaults: language and direction. 
         - The viewport strategy for CSS processing.
+          If you don't know what to put, use defaults: `<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">`.
         - OpenGraph metadata.
-        - HTML metadata.
+        - HTML metadata, including a unique description under 150 characters.
         - Schema.org metadata.
         - Twitter / Facebook metadata.
         - Webpack Encore styles and scripts tags.
-        - Dynamic <title> markup.
+        - Dynamic <title> markup with a default suffix containing your website name (you can cut it off to ~50 characters).
         - UTF-8 charset.
         - A canonical markup for SEO (`<link rel="canonical" href="{{ url(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">`).
+        - Alternate languages using `<link>` if applicable, including the default one.
+        - Platform-specific tags for Windows Tiles and Apple Web Apps (including a `browserconfig.xml` file).
         - Overridable blocks for all of these.
 6. Your `/templates` directory should at least contain:
    - `admin`
@@ -262,7 +266,11 @@ twig:
     - Make sure your breadcrumb order is coherent across pages.
     - Use the template in this repository as a start if needed (`files-you-will-need/templates/common/_breadcrumb.html.twig`).
 12. Make sure your `<title>` markup doesn't contain any HTML markup nor non-escaped special characters. Do the same for all the `<head>` contents.
-13. Validate all your whole page template using production environment and the [W3C HTML Validator](https://validator.w3.org/). Do the same [for CSS](https://jigsaw.w3.org/css-validator/).
+13. Make sure your assets are loaded in order: CSS > fonts > JS modules > JS (using `async`/`defer`) > images > audio > video.
+14. Check your HTML 5 semantics. Make sure you're using it, and using it properly.
+15. Implement `<noscript>` alternates, this is getting almost deprecated, but it's not yet totally the case.
+16. Use the `dns-prefetch` for anything located on other domains, `preconnect` for potential follow-ups, `preload` for probable further needs and `preload` for certain calls. 
+17. Validate all your whole page template using production environment and the [W3C HTML Validator](https://validator.w3.org/). Do the same [for CSS](https://jigsaw.w3.org/css-validator/).
 
 ## 4. Produce your models
 
@@ -364,10 +372,13 @@ admin:
     - Use cookies (since they're functional, they're GPDR-compliant) to remember usage choice.
     - Create eco-friendly and regular Twig layouts. 
     - Pick up the top layout from your cookies as defined above.
+    - Use a CSS purger to remove unused CSS.
     - Load only one compressed, optimized, alternate CSS stylesheet.
-    - Include all accessibility HTML, removed the decorative HTML by using the same Twig conditions on cookies.
+    - Include all accessibility HTML (don't forget [ARIA](https://www.w3.org/TR/aria-in-html/), remove the decorative HTML by using the same Twig conditions on cookies.
     - When cookies are not set, redirect the user to a minimal choice page.
+    - Try to lazy load images and other assets, depending on the parts above the fold.
     - If your application logic requires an update because of that, you need to rethink how it works.
+    - Don't include unnecessary content, like unused styles from web fonts, hidden images, etc.
     - Don't forget responsive web integration as well.
 15. Make sure people can't manipulate entites that they're not supposed to:
     - Because of roles hiearchy
@@ -375,6 +386,16 @@ admin:
     - Because of bad Security API use
     - Because of no ownership checks on entities
     - Because of bad HTTP methods
+16. Don't forget to add a human-readable sitemap of your website.
+17. Don't forget to add a SEO-oriented XML sitemap. 
+    - You can make it dynamic and use caching (Symfony action caching and/or Twig `{cache}` markup).
+    - You can generate it statically, too.
+    - Test that they don't go over 50 000 URLs. Include a [sitemap index](https://developers.google.com/search/docs/advanced/sitemaps/large-sitemaps) if it happens, with links to chunks.
+    - Include all your public static routes, and loop through the significant content by priority.
+    - Ignore callbacks, dynamic URLs, canonical URLs, assets. 
+    - The crawlers will find the rest if it appears on links and test a lot of URLs from external mesh.
+18. Consider implementing [service workers caching](https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker) if they can help. This can be longer when added in the end. 
+
 
 ## 7. Secure your app
 
@@ -435,6 +456,8 @@ security:
 12. Check your app through `https://github.com/fabpot/local-php-security-checker` on a regular basis (add it to your CI and your local habits).
 13. Every time you add an action, before you even start writing it, check the security first. Do the same when you're done. 
 14. Make sure you use absolutely generic and unique error messages for login and password reset actions. Don't reveal what was wrong on user side.
+15. Test your application against security tools, like testing your dependencies on the frontend and backend, HTTP attacks, OWASP vulnerabilities.
+
 
 ## 8. Use TailwindCSS for styles and RWI
 
@@ -471,6 +494,13 @@ twig:
 4. Create a favicon and add its configuration to your `base.html.twig` and `assets/favicon/browserconfig.xml`. Use a favicon generator for that and a manifest file.
 5. Create a default OpenGraph image for your site and put it in `assets/images` (name it `ogimage.jpg` if you copied the included files of this project).
 6. Prepare an external shell script to start your project from your user home directory. See an example with `start-project` included scripts.
+7. Try to prepare and use `srcset` with multiple resolution sources, to adapt to screen resolution.
+8. Try to prefer SVG to images sources, which also avoids using image sprites (iconic fonts can also do the same).
+9. Make sure you always use WOFF2 at least when it comes to web fonts inclusion.
+10. Try to output the `height` and `width` dimensions on all image sources to allow X/Y space reservation on browsers.
+11. Make sure all images have a descriptive `alt` attribute which explains what they contain.
+12. Don't put any JavaScript inside the `<body>` markup. At worst put it all just before the `</body>` closing tag.
+13. Configure a CDN for your assets with if this is within your reach. Start with a tight policy and expand durations if it all works correctly.
 
 ## 9. Pre-flight checks
 
@@ -543,7 +573,7 @@ parameters:
 20. Make sure you have optimized **all** your theme images using [TinyPng](https://tinypng.com/). 
 21. Make sure you have no remaining missing translations (`php bin/console debug:translation [your locale]`).
 22. Make sure you browser console is absolutely empty, no:
-    - CORS alerts
+    - CORS alerts (make sure your CORS policy is set)
     - JavaScript errors
     - Bad cookie API usages
     - 404 on files
@@ -553,7 +583,30 @@ parameters:
 24. Unless your website ecosystem doesn't like it, configure your web server to use `SameSite / strict` cookies. 
 25. Define a custom (random) string for the `APP_SECRET` variable in your DotEnv file, one for each different environement.
 26. Fix your Composer dependencies versions in your `composer.json` file. Make them use only patch upgrades within Semantic versioning.
-27. On production 
+27. On production, check that your website displays correctly when using an agressive ad blocker.
+28. Test your application on the most used browsers and platforms. Unless your business rules explicit otherwise:
+    - Chrome on Windows (latest 2 major versions)
+    - Chrome on MacOS (latest 2 major versions)
+    - Chrome on Android (latest 5 major versions)
+    - Safari on iOS (latest 5 major versions)
+    - Safari on MacOS (latest 2 major versions)
+    - Firefox on Windows (latest major version)
+    - Firefox on MacOS (latest major version)
+    - Firefox on Android (latest major version)
+    - Edge on Windows (latest major version)
+29. Test your application on regular screen definitions:
+    - \< 640px width, portrait and landscape
+    - \< 768px width, portrait and landscape
+    - \< 1024px width, portrait and landscape
+    - \< 1280px width, portrait and landscape
+    - \< 1920px width, portrait and landscape
+    - \< 2560px width, landscape
+    - \> 2560px width (up to 3860px), landscape
+30. Test RTL language if applicable.
+31. Use [OpQuast checklists](https://checklists.opquast.com/en/web-quality-assurance/) to further investigate potential design/UX flaws.
+32. Make sure your server supports and actually uses Gzip compression. 
+33. Configure default cache headers for all assets on your web server, especially if you use a CDN, and test those headers.~~~~
+
 
 ## 10. Dockerize your project
 
